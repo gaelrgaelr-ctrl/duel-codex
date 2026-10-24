@@ -1,0 +1,9 @@
+{
+  "appId": "com.duelcodex.app",
+  "appName": "Duel Codex",
+  "webDir": "www",
+  "backgroundColor": "#0D1B2E",
+  "android": {
+    "backgroundColor": "#0D1B2E"
+  }
+}
