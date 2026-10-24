@@ -1,0 +1,54 @@
+name: Compilar APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Preparar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Instalar Capacitor
+        run: npm install
+
+      - name: Crear el proyecto de Android
+        run: npx cap add android
+
+      - name: Poner el icono y la pantalla de inicio de Duel Codex
+        continue-on-error: true
+        run: >
+          npx --yes @capacitor/assets generate --android
+          --iconBackgroundColor '#0D1B2E' --iconBackgroundColorDark '#0D1B2E'
+          --splashBackgroundColor '#0D1B2E' --splashBackgroundColorDark '#0D1B2E'
+
+      - name: Copiar la app al proyecto de Android
+        run: npx cap sync android
+
+      - name: Aceptar licencias del SDK de Android
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+
+      - name: Compilar el APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+
+      - name: Guardar el APK para descargarlo
+        uses: actions/upload-artifact@v4
+        with:
+          name: Duel-Codex-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
