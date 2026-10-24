@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0D1B2E">
+<meta name="description" content="Guía de cartas de Yu-Gi-Oh! y armado de decks.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Duel Codex">
+<title>Duel Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="auth" class="hide">
+  <div class="auth-art" id="auth-art" aria-hidden="true"></div>
+  <div class="authbox">
+    <div class="auth-mark" id="auth-mark" aria-hidden="true"></div>
+    <h2>Duel Codex</h2>
+    <p class="muted center">Tu guía de cartas y armado de decks.</p>
+    <div class="tabs">
+      <button id="t-in" class="on">Entrar</button>
+      <button id="t-up">Crear cuenta</button>
+    </div>
+    <input type="text" id="a-user" placeholder="Usuario" autocomplete="username" autocapitalize="none" aria-label="Usuario">
+    <input type="password" id="a-pass" placeholder="Contraseña" autocomplete="current-password" aria-label="Contraseña">
+    <input type="password" id="a-pass2" placeholder="Repetir contraseña" class="hide" autocomplete="new-password" aria-label="Repetir contraseña">
+    <div class="err" id="a-err" role="alert"></div>
+    <button class="btn" id="a-go" style="width:100%">Entrar</button>
+    <button class="btn sec" id="a-guest" style="width:100%;margin-top:8px">Entrar como invitado</button>
+    <p class="muted small">Las cuentas se guardan solo en este navegador y este equipo. Sirven para separar tus decks, pero no son un sistema de seguridad real.</p>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hide">
+  <header>
+    <span class="logo"><span id="logo-mark" aria-hidden="true"></span>Duel Codex</span>
+    <span class="user">
+      <button class="who" id="who-btn" aria-label="Abrir mi perfil"><span class="av" id="who-av"></span><span id="who"></span></button>
+      <button class="btn sec small" id="logout">Salir</button>
+    </span>
+  </header>
+  <main>
+    <section id="pg-search">
+      <div class="hero" id="hero"></div>
+      <div class="searchbar">
+        <input type="text" id="q" placeholder="Nombre en español o inglés" aria-label="Buscar carta">
+        <button class="btn" id="go">Buscar</button>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="filters">
+        <select id="f-arch" aria-label="Arquetipo"><option value="">Todos los arquetipos</option></select>
+        <select id="f-attr" aria-label="Atributo">
+          <option value="">Todos los atributos</option>
+          <option value="dark">Oscuridad (DARK)</option>
+          <option value="light">Luz (LIGHT)</option>
+          <option value="earth">Tierra (EARTH)</option>
+          <option value="water">Agua (WATER)</option>
+          <option value="fire">Fuego (FIRE)</option>
+          <option value="wind">Viento (WIND)</option>
+          <option value="divine">Divino (DIVINE)</option>
+        </select>
+      </div>
+      <p id="msg"></p>
+      <div id="results"></div>
+      <p class="center"><button class="btn sec hide" id="more">Cargar más</button></p>
+    </section>
+    <section id="pg-detail" class="hide"></section>
+    <section id="pg-deck" class="hide"></section>
+    <section id="pg-tools" class="hide"></section>
+    <section id="pg-profile" class="hide"></section>
+  </main>
+  <nav>
+    <button id="n-search" class="on"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>Cartas</button>
+    <button id="n-deck"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="11" height="15" rx="2"/><path d="M9 3h8a3 3 0 0 1 3 3v11"/></svg>Mi deck</button>
+    <button id="n-tools"><svg viewBox="0 0 24 24"><path d="M14.5 5.5a4 4 0 0 0-5 5L4 16l4 4 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-2.5-.5-.5-2.5z"/></svg>Herramientas</button>
+    <button id="n-profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.7-4 3.6-6 7.5-6s6.8 2 7.5 6"/></svg>Duelista</button>
+  </nav>
+</div>
+<div id="toast" role="status"></div>
+
+<!-- El orden importa: cada archivo usa los anteriores -->
+<script src="js/config.js"></script>
+<script src="js/art.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/banlist.js"></script>
+<script src="js/api.js"></script>
+<script src="js/deck.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/pwa.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui-auth.js"></script>
+<script src="js/ui-hero.js"></script>
+<script src="js/ui-explore.js"></script>
+<script src="js/ui-detail.js"></script>
+<script src="js/ui-deck.js"></script>
+<script src="js/ui-profile.js"></script>
+<script src="js/ui-tools.js"></script>
+<script src="js/tool-duel.js"></script>
+<script src="js/tool-hand.js"></script>
+<script src="js/tool-misc.js"></script>
+<script src="js/tool-banlist.js"></script>
+<script src="js/tool-deckio.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
